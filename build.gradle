@@ -1,0 +1,84 @@
+buildscript {
+  ext.kotlin_version = '1.0.3'
+
+  repositories { mavenCentral() }
+  dependencies { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
+}
+
+plugins {
+  id "com.jfrog.bintray" version "1.5"
+}
+
+version = project.hasProperty('teamcity') ? project['teamcity']['build.number'] : 'SNAPSHOT'
+
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'kotlin'
+
+  group = 'org.jonnyzzz.kotlin.generator'
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+
+  repositories { mavenCentral() }
+
+  dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    testCompile "junit:junit:4.12"
+  }
+
+  test {
+    useJUnit()
+    testLogging.showStandardStreams = true
+  }
+
+  apply plugin: 'maven-publish'
+  apply plugin: "com.jfrog.bintray"
+
+  task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+  }
+
+  artifacts {
+    archives sourceJar
+  }
+
+  publishing {
+    publications {
+      mavenJava(MavenPublication) {
+        from components.java
+        artifact sourceJar {
+          classifier "sources"
+        }
+      }
+    }
+  }
+
+  if (rootProject.hasProperty("bintrayUser")) {
+    bintray {
+      user = getProperty('bintrayUser')
+      key = getProperty('bintrayApiKey')
+      publications = ['mavenJava']
+      pkg {
+        repo = 'maven'
+        name = 'kotlin.generator'
+        userOrg = getProperty('bintrayUser')
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/jonnyzzz/kotlin.generator'
+      }
+    }
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.0'
+}
+
+task bintrayUploadEx {
+  dependsOn ':api:bintrayUpload'
+}
+
+task localUploadEx {
+  dependsOn ':api:publishToLocalMaven'
+}
