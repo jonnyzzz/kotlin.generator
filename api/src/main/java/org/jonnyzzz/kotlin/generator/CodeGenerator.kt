@@ -9,12 +9,6 @@ interface KotlinWriter {
   fun offset(): KotlinWriter
 }
 
-interface KotlinMixinWriter {
-  fun constant(name: String)
-  fun function(name: String, vararg params: String)
-  fun block(name: String, vararg params: String, blockWriter: KotlinWriter.() -> Unit = { })
-}
-
 fun KotlinWriter.block(text: String, omitEmpty: Boolean = false, builder: KotlinWriter.() -> Unit) {
   var hasContent = false
   val that = this
