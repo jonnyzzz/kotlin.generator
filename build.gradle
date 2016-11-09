@@ -1,5 +1,5 @@
 buildscript {
-  ext.kotlin_version = '1.0.3'
+  ext.kotlin_version = '1.0.4'
 
   repositories { mavenCentral() }
   dependencies { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
@@ -9,7 +9,15 @@ plugins {
   id "com.jfrog.bintray" version "1.5"
 }
 
-version = project.hasProperty('teamcity') ? project['teamcity']['build.number'] : 'SNAPSHOT'
+if (rootProject.getProperties().containsKey("publish_version")) {
+  version = rootProject.getProperties()["publish_version"]
+} else if (System.getenv("TRAVIS_BUILD_NUMBER") != null) {
+  version = "0.1." + System.getenv("TRAVIS_BUILD_NUMBER")
+} else if (rootProject.hasProperty('teamcity')) {
+  version = rootProject['teamcity']['build.number']
+} else {
+  version = 'SNAPSHOT'
+}
 
 subprojects {
   apply plugin: 'java'
