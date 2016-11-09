@@ -19,11 +19,15 @@ if (rootProject.getProperties().containsKey("publish_version")) {
   version = 'SNAPSHOT'
 }
 
+println "Actual Target Version = ${rootProject.version}"
+
+
 subprojects {
   apply plugin: 'java'
   apply plugin: 'kotlin'
 
   group = 'org.jonnyzzz.kotlin.generator'
+  version = rootProject.version
 
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
