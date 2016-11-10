@@ -22,7 +22,7 @@ http://dl.bintray.com/jonnyzzz/maven
 In Gradle build script it may be done like this
 ```gradle
 repositories {
-  maven { url "http://dl.bintray.com/jonnyzzz/maven" }
+  jcenter()
 }
 
 dependencies {
