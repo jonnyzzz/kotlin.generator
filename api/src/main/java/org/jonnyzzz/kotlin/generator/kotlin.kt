@@ -1,7 +1,7 @@
 package org.jonnyzzz.kotlin.generator
 
 
-fun KotlinWriter.`interface`(name : String, builder : KotlinWriter.() -> Unit) {
+fun KotlinWriter.`interface`(name: String, builder: KotlinWriter.() -> Unit) {
   block("interface $name") {
     builder()
   }
@@ -19,15 +19,15 @@ fun KotlinWriter.imports(vararg types: String) {
   }
 }
 
-fun KotlinWriter.`package`(name : String) {
+fun KotlinWriter.`package`(name: String) {
   appendln("package $name")
   appendln()
 }
 
-private fun KotlinWriter.clazz(header : String,
-                               params : KotlinWriter.() -> Unit,
-                               inherits : String,
-                               block : KotlinWriter.() -> Unit ) {
+fun KotlinWriter.clazz(header: String,
+                       params: KotlinWriter.() -> Unit,
+                       inherits: String,
+                       block: KotlinWriter.() -> Unit) {
   appendln(header + " (")
   offset().params()
   appendln(") : $inherits {")
