@@ -35,7 +35,7 @@ fun KotlinWriter.blockWithParams(text: String, args: Array<out Pair<String, Stri
   val blockNameBuilder = StringBuilder()
   blockNameBuilder.append(text)
   blockNameBuilder.append(args.filterNotNull().map { "${it.first}: ${it.second}" }.joinToString(", ", prefix = " (", postfix = ")"))
-  this.block(blockNameBuilder.toString(), false, builder)
+  this.block(blockNameBuilder.toString(), omitEmpty = omitEmpty, builder = builder)
 }
 
 fun KotlinWriter.task(name: String, vararg args: Pair<String, String>?, builder: KotlinWriter.() -> Unit) {
