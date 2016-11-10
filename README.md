@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-  compile "org.jonnyzzz.kotlin.generator:<VERSION>"
+  compile "org.jonnyzzz.kotlin.generator:api:<VERSION>"
 }
 ```
 
