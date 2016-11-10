@@ -9,6 +9,10 @@ interface KotlinWriter {
   fun offset(): KotlinWriter
 }
 
+fun KotlinWriter.offset(builder : KotlinWriter.() -> Unit) {
+  offset().builder()
+}
+
 fun KotlinWriter.block(text: String, omitEmpty: Boolean = false, builder: KotlinWriter.() -> Unit) {
   var hasContent = false
   val that = this
